@@ -11,11 +11,9 @@ class ProductController
     if ($id) {
 
       $this->processResourceRequest($method, $id);
-
     } else {
 
       $this->processCollectionRequest($method);
-
     }
   }
 
@@ -104,3 +102,4 @@ class ProductController
     return $errors;
   }
 }
+
