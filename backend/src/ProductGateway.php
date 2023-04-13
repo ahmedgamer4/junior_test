@@ -1,8 +1,8 @@
 <?php
 
-class ProductGateway
+abstract class ProductGateway
 {
-  private PDO $conn;
+  protected PDO $conn;
 
   public function __construct(Database $database)
   {
@@ -25,24 +25,7 @@ class ProductGateway
     return $data;
   }
 
-  public function create(array $data): string
-  {
-    $sql = "INSERT INTO product (name, price, sku, size, dimensions, weight)
-                VALUES (:name, :price, :sku, :size, :dimensions, :weight)";
-
-    $stmt = $this->conn->prepare($sql);
-
-    $stmt->bindValue(":name", $data["name"], PDO::PARAM_STR);
-    $stmt->bindValue(":sku", $data["sku"] ?? 'placeholder', PDO::PARAM_STR);
-    $stmt->bindValue(":size", $data["size"] ?? 0, PDO::PARAM_INT);
-    $stmt->bindValue(":price", $data["price"] ?? 0, PDO::PARAM_INT);
-    $stmt->bindValue(":dimensions", $data["dimensions"], PDO::PARAM_STR);
-    $stmt->bindValue(":weight", $data["weight"], PDO::PARAM_INT);
-
-    $stmt->execute();
-
-    return $this->conn->lastInsertId();
-  }
+  abstract public function create(array $data): string;
 
   public function get(string $id): array|false
   {

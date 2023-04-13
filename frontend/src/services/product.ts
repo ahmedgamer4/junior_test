@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from "axios";
 
 export type ProductToCreateType = {
   sku: string;
@@ -7,21 +7,23 @@ export type ProductToCreateType = {
   size?: number;
   dimensions?: string;
   weight?: number;
-}
+};
 
-const baseUrl = 'https://boracic-tender.000webhostapp.com/products'
+const baseUrl = location.origin + "/products";
 
 export const getAll = async () => {
-  const res = await axios.get(baseUrl)
-  return res.data
-}
+  const res = await axios.get(baseUrl);
+  return res.data;
+};
 
-export const createProduct = async (data: ProductToCreateType): Promise<string> => {
-  const res = await axios.post(baseUrl, data)
-  return res.data
-}
+export const createProduct = async (
+  data: ProductToCreateType,
+): Promise<string> => {
+  const res = await axios.post(baseUrl, data);
+  return res.data;
+};
 
 export const deleteProduct = async (id: string) => {
-  const res = await axios.delete(`${baseUrl}/${id}`)
-  return res.data
-}
+  const res = await axios.delete(`${baseUrl}/${id}`);
+  return res.data;
+};

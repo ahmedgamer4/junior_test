@@ -1,7 +1,15 @@
 <?php
 
+/**
+ * Summary of ErrorHandler
+ */
 class ErrorHandler
 {
+    /**
+     * Summary of handleException
+     * @param Throwable $exception
+     * @return void
+     */
     public static function handleException(Throwable $exception): void
     {
         http_response_code(500);

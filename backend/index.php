@@ -8,9 +8,9 @@ spl_autoload_register(function ($class) {
 set_error_handler("ErrorHandler::handleError");
 set_exception_handler("ErrorHandler::handleException");
 
-// header('Access-Control-Allow-Origin: *');
-// header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
-// header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token');
 
 $parts = explode("/", $_SERVER["REQUEST_URI"]);
 
@@ -20,9 +20,9 @@ if ($parts[1] == "products") {
 
     $database = new Database("localhost", "product_db", "root", "ahmedalseidy");
 
-    $gateway = new ProductGateway($database);
+    $factory = new Factory($database);
 
-    $controller = new ProductController($gateway);
+    $controller = new ProductController($factory);
 
     $controller->processRequest($_SERVER["REQUEST_METHOD"], $id);
 } else {
@@ -32,8 +32,8 @@ if ($parts[1] == "products") {
 
     <head>
         <title>My React App</title>
-        <script type="module" crossorigin src="./dist/assets/index-141f64aa.js"></script>
-        <link rel="stylesheet" href="./dist/assets/index-4bb23c53.css">
+        <script type="module" crossorigin src="/dist/assets/index-c39d879a.js"></script>
+        <link rel="stylesheet" href="/dist/assets/index-4bb23c53.css">
     </head>
 
     <body>

@@ -2,14 +2,25 @@
 
 class ProductController
 {
-  public function __construct(private ProductGateway $gateway)
+  private Factory $factory;
+  private ProductGateway $gateway;
+  // public function __construct(private ProductGateway $gateway)
+  // {
+  // }
+  public function __construct($factory)
   {
+    $this->factory = $factory;
+  }
+
+  public function createProduct()
+  {
+    $this->gateway = $this->factory->makeProduct(['size' => 0]);
   }
 
   public function processRequest(string $method, ?string $id): void
   {
+    $this->gateway = $this->factory->makeProduct(['size' => 0]);
     if ($id) {
-
       $this->processResourceRequest($method, $id);
     } else {
 
@@ -19,6 +30,7 @@ class ProductController
 
   private function processResourceRequest(string $method, string $id): void
   {
+    $this->createProduct();
     $product = $this->gateway->get($id);
 
     if (!$product) {
@@ -57,6 +69,8 @@ class ProductController
       case "POST":
         $data = (array) json_decode(file_get_contents("php://input"), true);
 
+        $this->gateway = $this->factory->makeProduct($data);
+
         $errors = $this->getValidationErrors($data);
 
         if (!empty($errors)) {
@@ -72,7 +86,6 @@ class ProductController
           "message" => "Product created",
           "id" => $id
         ]);
-        echo json_encode($data);
         break;
 
       default:
@@ -102,4 +115,3 @@ class ProductController
     return $errors;
   }
 }
-
